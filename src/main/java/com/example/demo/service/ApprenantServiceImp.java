@@ -56,7 +56,10 @@ public class ApprenantServiceImp implements ApprenantService {
        Apprenant existingApprenant = existingApprenantOptional.get();
         existingApprenant.setNom(apprenant.getNom());
         existingApprenant.setPrenom(apprenant.getPrenom());
-        // Autres champs à mettre à jour...
+        existingApprenant.setDatenaiss(apprenant.getDatenaiss());
+        existingApprenant.setTelephone(apprenant.getTelephone());
+        existingApprenant.setPhoto(apprenant.getPhoto());
+
 
         // Enregistrer les modifications dans le repository
         return apprenantRepository.save(existingApprenant);
