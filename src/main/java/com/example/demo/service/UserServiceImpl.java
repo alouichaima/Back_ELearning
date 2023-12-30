@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.DTO.LoginDTO;
 import com.example.demo.DTO.UserDTO;
+import com.example.demo.entity.Formateur;
 import com.example.demo.entity.Role;
 import com.example.demo.entity.User;
 import com.example.demo.repository.UserRepository;
@@ -88,5 +89,16 @@ public class UserServiceImpl implements UserService {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	@Override
+	public User findUserById(Long id) {
+		Optional<User> formOptional = userrepo.findById(id);
+		if (formOptional.isEmpty()) {
+			return null;
+		} else {
+			return formOptional.get();
+		}
+	}
+
 
 }

@@ -1,9 +1,12 @@
 package com.example.demo.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -12,11 +15,14 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 
 
 @Entity
-public class User {
+public class User implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -29,6 +35,10 @@ public class User {
 	private String photo;
 	
 	
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinTable(name = "user_formation", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "formation_id"))
+	@JsonBackReference
+	private List<Formation> formation;
 	
 	
 	@ManyToMany(fetch = FetchType.LAZY)
@@ -37,6 +47,24 @@ public class User {
 	
 	
 	
+	public User(Long id, String nom, String prenom, Date datenaiss, String email, String password, int telephone,
+			String photo, List<Formation> formation, Set<Role> roles) {
+		super();
+		this.id = id;
+		this.nom = nom;
+		this.prenom = prenom;
+		this.datenaiss = datenaiss;
+		this.email = email;
+		this.password = password;
+		this.telephone = telephone;
+		this.photo = photo;
+		this.formation = formation;
+		this.roles = roles;
+	}
+	
+	
+	
+
 	public Long getId() {
 		return id;
 	}
