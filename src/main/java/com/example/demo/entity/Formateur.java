@@ -20,6 +20,8 @@ public class Formateur {
 	private String password;
 	private int telephone;
 	private String photo;
+	
+	
 	public Long getId() {
 		return id;
 	}
