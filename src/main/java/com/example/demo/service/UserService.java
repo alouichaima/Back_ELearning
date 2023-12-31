@@ -7,9 +7,11 @@ import com.example.demo.entity.User;
 
 public interface UserService {
 	
-	  String addUser(UserDTO userDTO);
 	  LoginResponse loginUser(LoginDTO loginDTO);
 	public User findUserById (Long id);
+	
+    void saveUser(User user);
+
 
 
 }

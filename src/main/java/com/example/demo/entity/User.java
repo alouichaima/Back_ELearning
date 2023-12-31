@@ -1,6 +1,6 @@
 package com.example.demo.entity;
 
-import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -22,7 +22,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 
 
 @Entity
-public class User implements Serializable {
+public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -35,36 +35,25 @@ public class User implements Serializable {
 	private String photo;
 	
 	
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinTable(name = "user_formation", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "formation_id"))
-	@JsonBackReference
-	private List<Formation> formation;
-	
-	
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles ;
 	
-	
-	
-	public User(Long id, String nom, String prenom, Date datenaiss, String email, String password, int telephone,
-			String photo, List<Formation> formation, Set<Role> roles) {
-		super();
-		this.id = id;
-		this.nom = nom;
-		this.prenom = prenom;
-		this.datenaiss = datenaiss;
-		this.email = email;
-		this.password = password;
-		this.telephone = telephone;
-		this.photo = photo;
-		this.formation = formation;
-		this.roles = roles;
-	}
-	
-	
-	
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinTable(
+	    name = "user_formation",
+	    joinColumns = @JoinColumn(name = "user_id"),
+	    inverseJoinColumns = @JoinColumn(name = "formation_id")
+	)
+	private List<Formation> formations = new ArrayList<>();
 
+
+	public List<Formation> getFormations() {
+		return formations;
+	}
+	public void setFormations(List<Formation> formations) {
+		this.formations = formations;
+	}
 	public Long getId() {
 		return id;
 	}

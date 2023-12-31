@@ -21,6 +21,8 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private UserRepository userrepo;
 	
+
+	
 	@Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -84,20 +86,35 @@ public class UserServiceImpl implements UserService {
 	}
 
  
+
 	@Override
-	public String addUser(UserDTO userDTO) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	@Override
-	public User findUserById(Long id) {
+	/*public User findUserById(Long id) {
 		Optional<User> formOptional = userrepo.findById(id);
 		if (formOptional.isEmpty()) {
 			return null;
 		} else {
 			return formOptional.get();
 		}
+	}*/
+	public User findUserById(Long userId) {
+	    try {
+	        User user = userrepo.findById(userId).orElse(null);
+
+	        if (user == null) {
+	            System.out.println("Utilisateur introuvable pour l'ID : " + userId);
+	        }
+
+	        return user;
+	    } catch (Exception e) {
+	        System.out.println("An error occurred while retrieving the user with ID " + userId + ": " + e.getMessage());
+	        throw new RuntimeException("Error retrieving user by ID", e);
+	    }
+	}
+
+	@Override
+	public void saveUser(User user) {
+		userrepo.save(user);
+		
 	}
 
 

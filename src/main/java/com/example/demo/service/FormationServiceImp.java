@@ -1,26 +1,24 @@
 package com.example.demo.service;
 
 import java.io.IOException;
-import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
+import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 
+import com.example.demo.entity.ERole;
 import com.example.demo.entity.Formation;
+import com.example.demo.entity.Role;
+import com.example.demo.entity.User;
 import com.example.demo.repository.FormationRepository;
 import com.example.demo.repository.UserRepository;
-import com.example.demo.response.MessageResponse;
 
 
 @Service
@@ -33,6 +31,15 @@ public class FormationServiceImp implements FormationService{
 			
 			@Autowired
 			private UserRepository userRepository;
+			
+
+		    @Autowired
+		    private UserService userService; 
+		    
+		    @Autowired
+		    private EntityManager entityManager; 
+
+
 			
 
 			public Formation ajouterFormation( String nom, String Description, Date datecreation,
@@ -102,7 +109,53 @@ public class FormationServiceImp implements FormationService{
 			public void deleteFormation(long id) {
 				formationRepository.deleteById(id);
 			}
+
+			@Override
+			@Transactional
+			public void ajouterFormationAvecFormateur(Long userId, Formation formation) {
+			    try {
+			        User formateur = userService.findUserById(userId);
+
+			        if (formateur != null) {
+			            Set<Role> userRoles = formateur.getRoles();
+			            System.out.println("Roles de l'utilisateur : " + userRoles);
+
+			            if (userHasRole(formateur, ERole.FORMATEUR)) {
+			                formateur.getFormations().add(formation);
+			                formation.getFormateurs().add(formateur);
+
+			                // Vous n'avez probablement pas besoin de sauvegarder la formation ici
+			                // formationRepository.save(formation);
+
+			                // Sauvegardez explicitement l'utilisateur
+			                userService.saveUser(formateur);
+
+			                entityManager.flush();
+			                entityManager.clear();
+
+			                System.out.println("Formation ajoutée avec succès.");
+			            } else {
+			                throw new RuntimeException("L'utilisateur n'est pas un formateur. Rôles de l'utilisateur : " + userRoles);
+			            }
+			        } else {
+			            throw new RuntimeException("Utilisateur introuvable pour l'ID : " + userId);
+			        }
+			    } catch (Exception e) {
+			        e.printStackTrace(); // Ajout de cette ligne pour imprimer la trace de la pile
+			        throw new RuntimeException("Impossible d'ajouter la formation : " + e.getMessage());
+			    }
+			}
+
+
+		    private boolean userHasRole(User user, ERole role) {
+		        return user.getRoles().stream().anyMatch(userRole -> role.equals(userRole.getName()));
+		    }
+
+
+
 		
+			
+
 }
 
 

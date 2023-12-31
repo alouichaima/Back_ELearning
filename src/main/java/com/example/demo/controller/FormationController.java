@@ -3,6 +3,8 @@ package com.example.demo.controller;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.EntityManager;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -36,6 +38,8 @@ public class FormationController {
 	   @Autowired
 	    private FormationServiceImp formationServiceImp;
 	
+ 
+
 
 	@PostMapping("/AjouterFormation")
 	public ResponseEntity<MessageResponse> AjouterFormation(
@@ -89,5 +93,19 @@ public class FormationController {
 			return new ResponseEntity<Formation>(formation, HttpStatus.OK);
 		}
 	}
+	
+    @PostMapping("/ajouterFormation/{userId}")
+    public ResponseEntity<MessageResponse> ajouterFormation(@PathVariable Long userId, @RequestBody Formation formation) {
+        String message = "";
+
+        try {
+            formationService.ajouterFormationAvecFormateur(userId, formation);
+            message = "Formation ajoutée avec succès.";
+            return ResponseEntity.status(HttpStatus.OK).body(new MessageResponse(message));
+        } catch (Exception e) {
+            message = "Impossible d'ajouter la formation : " + e.getMessage();
+            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new MessageResponse(message));
+        }
+    }
 
 }

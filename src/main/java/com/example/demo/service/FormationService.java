@@ -11,4 +11,7 @@ public interface FormationService {
 	    public Formation createFormation( Formation formation);
 		public Formation updateFormation( Formation formation);
 	    public void deleteFormation( long id);
+	    
+	    void ajouterFormationAvecFormateur(Long userId, Formation formation);
+
 }
