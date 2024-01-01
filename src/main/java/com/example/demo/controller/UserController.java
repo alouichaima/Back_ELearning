@@ -4,16 +4,13 @@ import java.util.HashSet;
 import java.util.Set;
 
 
+import com.example.demo.entity.Apprenant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import com.example.demo.DTO.LoginDTO;
 import com.example.demo.DTO.UserDTO;
 import com.example.demo.entity.ERole;
@@ -162,6 +159,11 @@ public class UserController {
 
         return ResponseEntity.ok(new MessageResponse("Apprenant registered successfully!"));
     }
+    @GetMapping(value = "/GetOneUser/{id}")
 
+    public User GetOneUser(@PathVariable Long id) {
+
+        return userRepository.findById(id).get();
+    }
    
 }

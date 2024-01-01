@@ -1,9 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.entity.Apprenant;
-import com.example.demo.entity.Formateur;
 import com.example.demo.repository.ApprenantRepository;
-import com.example.demo.repository.FormateurRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -67,7 +65,18 @@ public class ApprenantServiceImp implements ApprenantService {
 
     @Override
     public void deleteApprenant(long id) {
-        apprenantRepository.deleteById(id);
 
     }
+
+    @Override
+    public Apprenant getProfilApprenantById(String id) {
+        // Implement your logic to fetch apprenant by ID from the repository
+        Optional<Apprenant> optionalApprenant = apprenantRepository.findById(Long.valueOf(id));
+        return optionalApprenant.orElse(null);
+    }
+
+
+
+
+
 }

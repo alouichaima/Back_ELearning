@@ -2,6 +2,8 @@ package com.example.demo.repository;
 
 import java.util.List;
 import java.util.Optional;
+
+import com.example.demo.entity.Apprenant;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -22,5 +24,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("SELECT u FROM User u JOIN u.roles r WHERE r.name=:x")
     public List<User> findAll(@Param("x")ERole role);
 
-
+    Optional<User> findById(Long id);
 }
