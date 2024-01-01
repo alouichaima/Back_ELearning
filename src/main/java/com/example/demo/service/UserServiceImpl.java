@@ -52,7 +52,8 @@ public class UserServiceImpl implements UserService {
 	        String password = loginDTO.getPassword();
 	        String encodedPassword = user1.getPassword();
 	        Boolean isPwdRight = passwordEncoder.matches(password, encodedPassword);
-	        if (isPwdRight) {
+
+			if (isPwdRight) {
 	            Optional<User> user = userrepo.findOneByEmailAndPassword(loginDTO.getEmail(), encodedPassword);
 	            if (user.isPresent()) {
 	                String userRole = getUserRole(user.get()); // Retrieve and set user role logic here
