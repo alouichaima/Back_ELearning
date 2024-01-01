@@ -20,7 +20,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
     
     Boolean existsByEmail(String email);
 
-    
+	public User findUtserById(Long id);
+
     @Query("SELECT u FROM User u JOIN u.roles r WHERE r.name=:x")
     public List<User> findAll(@Param("x")ERole role);
 

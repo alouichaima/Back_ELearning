@@ -12,6 +12,7 @@ public interface FormateurService  {
 	public Formateur createFormateur( Formateur formateur);
 	public Formateur updateFormateur( Formateur formateur);
 	public void deleteFormateur( long id);
+	
 
 
 }
