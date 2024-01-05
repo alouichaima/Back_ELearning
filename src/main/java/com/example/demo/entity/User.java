@@ -2,7 +2,6 @@ package com.example.demo.entity;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -17,9 +16,6 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-
-
 
 @Entity
 public class User {
@@ -32,7 +28,7 @@ public class User {
 	private String email;
 	private String password;
 	private int telephone;
-	private String photo;
+
 	
 	
 	@ManyToMany(fetch = FetchType.LAZY)
@@ -47,8 +43,11 @@ public class User {
 	)
 	private List<Formation> formations = new ArrayList<>();
 
+    public User(String nom, String prenom, String datenaiss, Date email, String encode, int telephone) {
+    }
 
-	public List<Formation> getFormations() {
+
+    public List<Formation> getFormations() {
 		return formations;
 	}
 	public void setFormations(List<Formation> formations) {
@@ -96,12 +95,7 @@ public class User {
 	public void setTelephone(int telephone) {
 		this.telephone = telephone;
 	}
-	public String getPhoto() {
-		return photo;
-	}
-	public void setPhoto(String photo) {
-		this.photo = photo;
-	}
+
 	
 
 	public Set<Role> getRoles() {
@@ -113,8 +107,7 @@ public class User {
 	@Override
 	public String toString() {
 		return "Utilisateur [id=" + id + ", nom=" + nom + ", prenom=" + prenom + ", datenaiss=" + datenaiss + ", email="
-				+ email + ", password=" + password + ", telephone=" + telephone + ", photo=" + photo + ", roles="
-				+ roles + "]";
+				+ email + ", password=" + password + ", telephone=" + telephone + ", roles=" + roles + "]";
 	}
 	/*public User(Long id, String nom, String prenom, Date datenaiss, String email, String password, int telephone,
 			String photo) {
@@ -143,13 +136,7 @@ public class User {
 	public User() {
 		super();
 	}
-	
-	
 
 
-	
-	
-	
-	
 
 }

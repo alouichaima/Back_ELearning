@@ -1,7 +1,11 @@
 package com.example.demo.DTO;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Set;
+import com.example.demo.entity.Role;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.DateSerializer;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,11 +17,13 @@ public class UserDTO {
 	private Long id;
 	private String nom;
 	private String prenom ;
-	private Date datenaiss;
+	@JsonSerialize(using = CustomDateSerializer.class)
+    private Date datenaiss;
+
 	private String email;
 	private String password;
 	private int telephone;
-	private String photo;
+
 	private Set<String> role;
 
 	
@@ -39,12 +45,6 @@ public class UserDTO {
 	public void setPrenom(String prenom) {
 		this.prenom = prenom;
 	}
-	public Date getDatenaiss() {
-		return datenaiss;
-	}
-	public void setDatenaiss(Date datenaiss) {
-		this.datenaiss = datenaiss;
-	}
 	public String getEmail() {
 		return email;
 	}
@@ -63,19 +63,23 @@ public class UserDTO {
 	public void setTelephone(int telephone) {
 		this.telephone = telephone;
 	}
-	public String getPhoto() {
-		return photo;
+
+
+	public Date getDatenaiss() {
+		return datenaiss;
 	}
-	public void setPhoto(String photo) {
-		this.photo = photo;
+	public void setDatenaiss(Date datenaiss) {
+		this.datenaiss = datenaiss;
 	}
-	
+
 	public Set<String> getRole() {
 		return role;
 	}
 	public void setRole(Set<String> role) {
 		this.role = role;
 	}
+
+
 
 
 
